@@ -39,7 +39,7 @@ def set_lang(langact):
     def submit():
         var = prepare()
         if var[0] != "" and var[2] != "":
-            #sql.main(var[0], var[1], var[2], var[3], var[4], var[5], var[6], var[7], var[8], var[9])
+            #sql.main(var[2], var[1], var[0], var[3], var[4], var[5], var[6], var[7], var[8], var[9])
             dymo.main()
             clear()
             messagebox.showinfo("INFO", "Hoi " + str(var[0]) + " " + str(var[2]), parent=subroot)

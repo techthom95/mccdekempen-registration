@@ -38,21 +38,23 @@ def sql_exists(mysql, table, layout):
         print("ERROR,", e)
 
 # Define SQL insert
-def sql_insert(mysql, table, var1, var2, var3):
+def sql_insert(mysql, table, var1, var2, var3, var4, var5, var6, var7, var8, var9):
     try:
         y = sql_command(mysql, f'SELECT id FROM {table}')
         if y != []:
             id = max(y)[0]+1
         else:
             id = 1
-        sql_command(mysql, f'INSERT INTO {table} VALUES ({id}, "{var1}", "{var2}", "{var3}")')
+        sql_command(mysql, f'INSERT INTO {table} VALUES ({id}, "{var1}", "{var2}", "{var3}","{var4}", \
+                    	    "{var5}", "{var6}", "{var7}", "{var8}", "{var9}")')
     except Exception as e:
         print("ERROR,", e)
 
-def main(first, last, pin):
+def main(var1, var2, var3, var4, var5, var6, var7, var8, var9):
     db = "mysql.db"
-    table = "register"
-    layout = "(id INTEGER PRIMARY KEY, first VARCHAR(255), last VARCHAR(255), pin INTEGER)"
+    table = "members"
+    layout = "(id INTEGER PRIMARY KEY, Lastname VARCHAR(255), Insertion VARCHAR(255), Firstname VARCHAR(255), Address VARCHAR(255), \
+             Zip Code VARCHAR(255), Place VARCHAR(255), Nationality VARCHAR(255), E-Mail VARCHAR(255), Date of Birth VARCHAR(255))"
 
     mysql = sql_conn(db)
     print("Connected to Database", db)
@@ -67,7 +69,7 @@ def main(first, last, pin):
         print("ERROR,", e)
 
     while ck != 0:
-        sql_insert(mysql, table, first, last, pin)
+        sql_insert(mysql, table, var1, var2, var3, var4, var5, var6, var7, var8, var9)
         print("Table Values Injected")
         break
 
