@@ -22,11 +22,11 @@ def main(var1, var2, var3, var4, var5):
         isOpen = labelcom.Open(mylabel)
         labelcom.SelectPrinter(selectPrinter)
 
-        labeltext.SetField("TEXT1", var1)
-        labeltext.SetField("TEXT2", var2)
-        labeltext.SetField("TEXT3", var3)
-        labeltext.SetField("TEXT4", var4)
-        labeltext.SetField("TEXT5", var5)
+        labeltext.SetField("TEXT1", var1)   # Firstname
+        labeltext.SetField("TEXT2", var2)   # Insertion
+        labeltext.SetField("TEXT3", var3)   # Lastname
+        labeltext.SetField("TEXT4", var4)   # Place
+        labeltext.SetField("TEXT5", var5)   # Date of Birth
     except Exception as e:
         print("[+] DYMO ERROR,", e)
     
