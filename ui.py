@@ -25,25 +25,32 @@ lang=[["Afdrukken", "Terug", "Voornaam", "Tussenvoegsel", "Achternaam", "Adres",
         ["Print", "Back", "Firstname", "Insertion", "Lastname", "Address", "Zip Code", "Nationality", "Place", "Date of Birth", "E-Mail"],                                              #EN
         ["Drucken", "Zurück", "Vorname", "Einfügung", "Familiename", "Adresse", "Postleitzahl", "Nationalität", "Ort", "Geburtsdatum", "E-Mail"],                                       #DE
         ["Imprimir", "Volver", "Nombre de pila", "Inserción", "Nombre de familia", "Dirección de calle", "Código postal", "Nacionalidad", "Ciudad", "Fecha de cumpleaños", "E-mail"]]   #ES
-langerr=[["Vul alle rode velden in!"],          #NL
-        ["Fill in all red fields!"],            #EN
-        ["Füllen Sie alle roten Felder aus!"],  #DE
-        ["Complete todos los campos rojos!"]]   #ES
+langerr=[["Vul alle rode velden in!", "Database fout", "Printer werkt niet"],                           #NL
+        ["Fill in all red fields!", "Database failure", "Printer not working"],                         #EN
+        ["Füllen Sie alle roten Felder aus!", "Datenbankfehler", "Drucker funktioniert nicht"],         #DE
+        ["Complete todos los campos rojos!", "Falla de la base de datos", "Impresora no funciona"]]     #ES
+langinf=[["Neem label uit de printer"],             #NL
+        ["Take label out of printer"],              #EN
+        ["Nehmen Sie das Etikett aus dem Drucker"], #DE
+        ["Sacar la etiqueta de la impresora"]]      #ES
 
 # Function secondary window
 def set_lang(langact):
     subroot=Toplevel(root) # Secondary window
-    subroot.attributes("-fullscreen", True) # Canvas fullscreen
+    #subroot.attributes("-fullscreen", True) # Canvas fullscreen
 
     # Function Submit
     def submit():
         var = prepare()
-        if var[0] != "" and var[2] != "":
-            sql.main(var[2], var[1], var[0], var[3], var[4], var[5], var[6], var[7], var[8], var[9])
-            dymo.main(var[0], var[1], var[2], var[7], var[8])
-            clear()
-            messagebox.showinfo("INFO", "Hoi " + str(var[0]) + " " + str(var[2]), parent=subroot)
-            #messagebox.showinfo("INFO", "Value's added to database")
+        if var[0] != "" and var[2] != "" and var[3] != "" and var[4] != "" and var[5] != "" and var[6] != "" and var[7] != "" and var[8] != "":
+            if dymo.main(var[0], var[1], var[2], var[7], var[8]) == -1:
+                messagebox.showerror("ERROR", langerr[langact][2], parent=subroot)
+            else:
+                if sql.main(var[2], var[1], var[0], var[3], var[4], var[5], var[6], var[7], var[8]) == -1:
+                    messagebox.showerror("ERROR", langerr[langact][1], parent=subroot)
+                else:
+                    clear()
+                    messagebox.showinfo("INFO", langinf[langact][0], parent=subroot)
         else:
             messagebox.showerror("ERROR", langerr[langact][0], parent=subroot)
 
