@@ -1,24 +1,33 @@
 #!/usr/bin/env python3
-from os import path
 from win32com.client import Dispatch
 
-def main():
-    curdir = path.dirname(path.abspath(__file__))
-    mylabel = path.join(curdir,"my.label")
+def printjob(com):
+    try:
+        com.StartPrintJob()
+        com.Print(1,False)
+        com.EndPrintJob()
+    except Exception as e:
+        print("[+] DYMO ERROR,", e)
+
+
+def main(var1, var2, var3, var4, var5):
+    # Variables
+    mylabel = "dymo.label"
     selectPrinter = "DYMO LabelWriter 450"
 
     try:
-        labelCom = Dispatch("Dymo.DymoAddIn")
-        labelText = Dispatch("Dymo.DymoLabels")
+        labelcom = Dispatch("Dymo.DymoAddIn")
+        labeltext = Dispatch("Dymo.DymoLabels")
 
-        isOpen = labelCom.Open(mylabel)
-        labelCom.SelectPrinter(selectPrinter)
+        isOpen = labelcom.Open(mylabel)
+        labelcom.SelectPrinter(selectPrinter)
 
-        labelText.SetField("TEXT1", "Hoi")
-        labelText.SetField("TEXT2", "Hoi2")
-
-        labelCom.StartPrintJob()
-        labelCom.Print(1,False)
-        labelCom.EndPrintJob()
+        labeltext.SetField("TEXT1", var1)
+        labeltext.SetField("TEXT2", var2)
+        labeltext.SetField("TEXT3", var3)
+        labeltext.SetField("TEXT4", var4)
+        labeltext.SetField("TEXT5", var5)
     except Exception as e:
         print("[+] DYMO ERROR,", e)
+    
+    printjob(labelcom)

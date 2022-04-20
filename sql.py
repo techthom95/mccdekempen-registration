@@ -51,14 +51,17 @@ def sql_insert(mysql, table, var1, var2, var3, var4, var5, var6, var7, var8, var
         print("[+] SQL ERROR,", e)
 
 def main(var1, var2, var3, var4, var5, var6, var7, var8, var9):
+    # Variables
     db = "mysql.db"
     table = "members"
     layout = "(id INTEGER PRIMARY KEY, Lastname VARCHAR(255), Insertion VARCHAR(255), Firstname VARCHAR(255), Address VARCHAR(255), \
              Zip Code VARCHAR(255), Place VARCHAR(255), Nationality VARCHAR(255), E-Mail VARCHAR(255), Date of Birth VARCHAR(255))"
 
+    # Setup connection and connect
     mysql = sql_conn(db)
     print("[+] SQL INFO, Connected to Database", db)
 
+    # Check if table exists, if not, create one
     ck = sql_exists(mysql, table, layout)
     try:
         if ck == 1:
@@ -68,9 +71,11 @@ def main(var1, var2, var3, var4, var5, var6, var7, var8, var9):
     except Exception as e:
         print("[+] SQL ERROR,", e)
 
+    # Insert values into table
     while ck != 0:
         sql_insert(mysql, table, var1, var2, var3, var4, var5, var6, var7, var8, var9)
         print("[+] SQL INFO, Table Values Injected")
         break
 
+    # Close connection
     mysql.close()

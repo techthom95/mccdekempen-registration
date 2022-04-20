@@ -40,7 +40,7 @@ def set_lang(langact):
         var = prepare()
         if var[0] != "" and var[2] != "":
             #sql.main(var[2], var[1], var[0], var[3], var[4], var[5], var[6], var[7], var[8], var[9])
-            dymo.main()
+            dymo.main(var[0], var[1], var[2])
             clear()
             messagebox.showinfo("INFO", "Hoi " + str(var[0]) + " " + str(var[2]), parent=subroot)
             #messagebox.showinfo("INFO", "Value's added to database")
@@ -49,15 +49,15 @@ def set_lang(langact):
 
     # Function fill variables
     def prepare():
-        var1 = textbox1.get()
-        var2 = textbox2.get()
-        var3 = textbox3.get()
-        var4 = textbox4.get()
-        var5 = textbox5.get()
-        var6 = textbox6.get()
-        var7 = textbox7.get()
-        var8 = textbox8.get()
-        var9 = textbox9.get()
+        var1 = textbox1.get()   # Firstname
+        var2 = textbox2.get()   # Insertion
+        var3 = textbox3.get()   # Lastname
+        var4 = textbox4.get()   # Address
+        var5 = textbox5.get()   # Zip Code
+        var6 = textbox6.get()   # Nationality
+        var7 = textbox7.get()   # Place
+        var8 = textbox8.get()   # Date of Birth
+        var9 = textbox9.get()   # E-Mail
         return var1, var2, var3, var4, var5, var6, var7, var8, var9
 
     # Function clear textboxes
