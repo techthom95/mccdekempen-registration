@@ -8,7 +8,7 @@ def sql_conn(var):
         connection = sqlite3.connect(var)
         return connection
     except Exception as e:
-        print("ERROR,", e)
+        print("[+] SQL ERROR,", e)
 
 # Define SQL command
 def sql_command(mysql, var):
@@ -18,7 +18,7 @@ def sql_command(mysql, var):
         mysql.commit()
         return cursor.fetchall()
     except Exception as e:
-        print("ERROR,", e)
+        print("[+] SQL ERROR,", e)
 
 # Define SQL table exists
 def sql_exists(mysql, table, layout):
@@ -35,7 +35,7 @@ def sql_exists(mysql, table, layout):
             x = 2
         return x
     except Exception as e:
-        print("ERROR,", e)
+        print("[+] SQL ERROR,", e)
 
 # Define SQL insert
 def sql_insert(mysql, table, var1, var2, var3, var4, var5, var6, var7, var8, var9):
@@ -48,7 +48,7 @@ def sql_insert(mysql, table, var1, var2, var3, var4, var5, var6, var7, var8, var
         sql_command(mysql, f'INSERT INTO {table} VALUES ({id}, "{var1}", "{var2}", "{var3}","{var4}", \
                     	    "{var5}", "{var6}", "{var7}", "{var8}", "{var9}")')
     except Exception as e:
-        print("ERROR,", e)
+        print("[+] SQL ERROR,", e)
 
 def main(var1, var2, var3, var4, var5, var6, var7, var8, var9):
     db = "mysql.db"
@@ -57,20 +57,20 @@ def main(var1, var2, var3, var4, var5, var6, var7, var8, var9):
              Zip Code VARCHAR(255), Place VARCHAR(255), Nationality VARCHAR(255), E-Mail VARCHAR(255), Date of Birth VARCHAR(255))"
 
     mysql = sql_conn(db)
-    print("Connected to Database", db)
+    print("[+] SQL INFO, Connected to Database", db)
 
     ck = sql_exists(mysql, table, layout)
     try:
         if ck == 1:
-            print("Database tabel", table, "exists")
+            print("[+] SQL INFO, Database tabel", table, "exists")
         if ck == 2:
-            print("Database tabel", table, "created")
+            print("[+] SQL INFO, Database tabel", table, "created")
     except Exception as e:
-        print("ERROR,", e)
+        print("[+] SQL ERROR,", e)
 
     while ck != 0:
         sql_insert(mysql, table, var1, var2, var3, var4, var5, var6, var7, var8, var9)
-        print("Table Values Injected")
+        print("[+] SQL INFO, Table Values Injected")
         break
 
     mysql.close()
