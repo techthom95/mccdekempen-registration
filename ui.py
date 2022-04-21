@@ -2,7 +2,8 @@
 from tkinter import *
 from tkinter import font
 from tkinter import messagebox
-import sql, dymo
+from configparser import *
+import sys, sql, dymo
 
 root=Tk() # Create main window
 root.title('MCC De Kempen') # Window title
@@ -20,23 +21,35 @@ root.iconphoto(True, icon) # Call icon
 f1=font.Font(weight="bold", size=14) # Font 1
 f2=font.Font(weight="bold", size=12) # Font 2
 
-# Define languages
-lang=[["Afdrukken", "Terug", "Voornaam", "Tussenvoegsel", "Achternaam", "Adres", "Postcode", "Nationaliteit", "Plaats", "Gebr. Datum", "E-Mail"],                                       #NL
-        ["Print", "Back", "Firstname", "Insertion", "Lastname", "Address", "Zip Code", "Nationality", "Place", "Date of Birth", "E-Mail"],                                              #EN
-        ["Drucken", "Zurück", "Vorname", "Einfügung", "Familiename", "Adresse", "Postleitzahl", "Nationalität", "Ort", "Geburtsdatum", "E-Mail"],                                       #DE
-        ["Imprimir", "Volver", "Nombre de pila", "Inserción", "Nombre de familia", "Dirección de calle", "Código postal", "Nacionalidad", "Ciudad", "Fecha de cumpleaños", "E-mail"]]   #ES
-langerr=[["Vul alle rode velden in!", "Database fout", "Printer werkt niet"],                           #NL
-        ["Fill in all red fields!", "Database failure", "Printer not working"],                         #EN
-        ["Füllen Sie alle roten Felder aus!", "Datenbankfehler", "Drucker funktioniert nicht"],         #DE
-        ["Complete todos los campos rojos!", "Falla de la base de datos", "Impresora no funciona"]]     #ES
-langinf=[["Neem label uit de printer"],             #NL
-        ["Take label out of printer"],              #EN
-        ["Nehmen Sie das Etikett aus dem Drucker"], #DE
-        ["Sacar la etiqueta de la impresora"]]      #ES
+# Define language configuration
+def config():
+    var1 = [[],[],[],[]]
+    var2 = [[],[],[],[]]
+    var3 = [[],[],[],[]]
+    try:
+        config = ConfigParser()
+        config.read("config.ini")
+        var1[0] = config.get("DEFAULT", "lang_nl").split(",")       #NL
+        var1[1] = config.get("DEFAULT", "lang_en").split(",")       #EN
+        var1[2] = config.get("DEFAULT", "lang_de").split(",")       #DE
+        var1[3] = config.get("DEFAULT", "lang_es").split(",")       #ES
+        var2[0] = config.get("DEFAULT", "langerr_nl").split(",")    #NL
+        var2[1] = config.get("DEFAULT", "langerr_en").split(",")    #EN
+        var2[2] = config.get("DEFAULT", "langerr_de").split(",")    #DE
+        var2[3] = config.get("DEFAULT", "langerr_es").split(",")    #ES
+        var3[0] = config.get("DEFAULT", "langinf_nl").split(",")    #NL
+        var3[1] = config.get("DEFAULT", "langinf_en").split(",")    #EN
+        var3[2] = config.get("DEFAULT", "langinf_de").split(",")    #DE
+        var3[3] = config.get("DEFAULT", "langinf_es").split(",")    #ES
+        return var1, var2, var3
+    except Exception as e:
+        print("[+] ERROR,", e)
+        return -1
 
 # Function secondary window
 def set_lang(langact):
     subroot=Toplevel(root) # Secondary window
+    subroot.configure(bg='white') # Secondary window background
     #subroot.attributes("-fullscreen", True) # Canvas fullscreen
 
     # Function Submit
@@ -234,5 +247,13 @@ btn_nl.pack(fill="both", expand="yes")
 btn_en.pack(fill="both", expand="yes")
 btn_de.pack(fill="both", expand="yes")
 btn_es.pack(fill="both", expand="yes")
+
+language = config() # Setup language
+if language == -1:
+    sys.exit()
+else:
+    lang=language[0]
+    langerr=language[1]
+    langinf=language[2]
 
 mainloop() # Running mainloop always last
