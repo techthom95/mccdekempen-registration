@@ -65,6 +65,38 @@ def set_lang(langact):
         var7 = textbox7.get()   # Place
         var8 = textbox8.get()   # Date of Birth
         var9 = textbox9.get()   # E-Mail
+        if var1 == "":
+            textbox1.config(bg='red')
+        else:
+            textbox1.config(bg='white')
+        if var3 == "":
+            textbox3.config(bg='red')
+        else:
+            textbox3.config(bg='white')
+        if var4 == "":
+            textbox4.config(bg='red')
+        else:
+            textbox4.config(bg='white')
+        if var5 == "":
+            textbox5.config(bg='red')
+        else:
+            textbox5.config(bg='white')
+        if var6 == "":
+            textbox6.config(bg='red')
+        else:
+            textbox6.config(bg='white')
+        if var7 == "":
+            textbox7.config(bg='red')
+        else:
+            textbox7.config(bg='white')
+        if var8 == "":
+            textbox8.config(bg='red')
+        else:
+            textbox8.config(bg='white')
+        if var9 == "":
+            textbox9.config(bg='red')
+        else:
+            textbox9.config(bg='white')
         return var1, var2, var3, var4, var5, var6, var7, var8, var9
 
     # Function clear textboxes
