@@ -8,8 +8,8 @@ def config():
     try:
         config = ConfigParser()
         config.read("config.ini")
-        var1 = config["DYMO"]["label"]
-        var2 = config["DYMO"]["printer"]
+        var1 = config.get("DYMO", "label")
+        var2 = config.get("DYMO", "printer")
         return var1, var2
     except Exception as e:
         print("[+] DYMO ERROR,", e)

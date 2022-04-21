@@ -8,9 +8,9 @@ def config():
     try:
         config = ConfigParser()
         config.read("config.ini")
-        var1 = config["SQL"]["database"]
-        var2 = config["SQL"]["table"]
-        var3 = config["SQL"]["layout"]
+        var1 = config.get("SQL", "database")
+        var2 = config.get("SQL", "table")
+        var3 = config.get("SQL", "layout")
         return var1, var2, var3
     except Exception as e:
         print("[+] SQL ERROR,", e)
