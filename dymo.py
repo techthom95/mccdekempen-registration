@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # dymo.py>
-import sys
 from configparser import *
 from win32com.client import Dispatch
 
@@ -33,7 +32,7 @@ def main(var1, var2, var3, var4, var5):
     mylabel = config()[0]
     selectPrinter = config()[0]
     if mylabel == -1 or selectPrinter == -1:
-        sys.exit()
+        return -1
 
     try:
         print("[+] DYMO INFO, preparing label")
@@ -53,4 +52,4 @@ def main(var1, var2, var3, var4, var5):
         return -1
     
     if printjob(labelcom) == -1:
-        sys.exit()
+        return -1
