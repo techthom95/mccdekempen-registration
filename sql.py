@@ -58,7 +58,7 @@ def sql_exists(mysql, table, layout):
         return -1
 
 # Define SQL insert
-def sql_insert(mysql, table, var1, var2, var3, var4, var5, var6, var7, var8, var9):
+def sql_insert(mysql, table, **var):
     try:
         y = sql_command(mysql, f'SELECT id FROM {table}')
         if y == -1:
@@ -67,14 +67,14 @@ def sql_insert(mysql, table, var1, var2, var3, var4, var5, var6, var7, var8, var
             id = max(y)[0]+1
         else:
             id = 1
-        if sql_command(mysql, f'INSERT INTO {table} VALUES ({id}, "{var1}", "{var2}", "{var3}","{var4}", \
-                    	    "{var5}", "{var6}", "{var7}", "{var8}", "{var9}")')== -1:
+        if sql_command(mysql, f'INSERT INTO {table} VALUES ({id}, "{var.get("lastname")}", "{var.get("insertion")}", "{var.get("firstname")}","{var.get("address")}", \
+                    	    "{var.get("zip-code")}", "{var.get("nationality")}", "{var.get("place")}", "{var.get("date-of-birth")}", "{var.get("e-mail")}")')== -1:
             return -1
     except Exception as e:
         print("[+] SQL ERROR,", e)
         return -1
 
-def main(var1, var2, var3, var4, var5, var6, var7, var8, var9):
+def main(**var):
     # Read configuration
     db = config()[0]
     table = config()[1]
@@ -103,10 +103,24 @@ def main(var1, var2, var3, var4, var5, var6, var7, var8, var9):
 
     # Insert values into table
     while ck != 0:
-        if sql_insert(mysql, table, var1, var2, var3, var4, var5, var6, var7, var8, var9) == -1:
+        if sql_insert(mysql, table, **var) == -1:
             return -1
         print("[+] SQL INFO, Table Values Injected")
         break
 
     # Close connection
     mysql.close()
+
+# DEBUG TEST
+if __name__ == "__main__":
+    list = { "firstname":"test-fname",
+                "insertion":"test-insert",
+                "lastname":"test-lname",
+                "address":"test-address",
+                "zip-code":"test-zip",
+                "nationality":"test-nat",
+                "place":"test-place",
+                "date-of-birth":"test-date",
+                "e-mail":"test-mail"
+                }
+    main(**list)

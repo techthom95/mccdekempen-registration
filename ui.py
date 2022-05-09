@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
+# ui.py>
 from tkinter import *
 from tkinter import font
 from tkinter import messagebox
 from configparser import *
-import sys, sql, dymo
+import sys, sql, dymo, brother
 
 root=Tk() # Create main window
 root.title('MCC De Kempen') # Window title
@@ -23,25 +24,25 @@ f2=font.Font(weight="bold", size=12) # Font 2
 
 # Define language configuration
 def config():
-    var1 = [[],[],[],[]]
-    var2 = [[],[],[],[]]
-    var3 = [[],[],[],[]]
+    var1 = [[[],[],[],[]],[[],[],[],[]],[[],[],[],[]],[[],[],[],[]]]
+    var2 = ""
     try:
         config = ConfigParser()
         config.read("config.ini")
-        var1[0] = config.get("DEFAULT", "lang_nl").split(",")       #NL
-        var1[1] = config.get("DEFAULT", "lang_en").split(",")       #EN
-        var1[2] = config.get("DEFAULT", "lang_de").split(",")       #DE
-        var1[3] = config.get("DEFAULT", "lang_es").split(",")       #ES
-        var2[0] = config.get("DEFAULT", "langerr_nl").split(",")    #NL
-        var2[1] = config.get("DEFAULT", "langerr_en").split(",")    #EN
-        var2[2] = config.get("DEFAULT", "langerr_de").split(",")    #DE
-        var2[3] = config.get("DEFAULT", "langerr_es").split(",")    #ES
-        var3[0] = config.get("DEFAULT", "langinf_nl").split(",")    #NL
-        var3[1] = config.get("DEFAULT", "langinf_en").split(",")    #EN
-        var3[2] = config.get("DEFAULT", "langinf_de").split(",")    #DE
-        var3[3] = config.get("DEFAULT", "langinf_es").split(",")    #ES
-        return var1, var2, var3
+        var1[0][0] = config.get("DEFAULT", "lang_nl").split(",")
+        var1[0][1] = config.get("DEFAULT", "lang_en").split(",")
+        var1[0][2] = config.get("DEFAULT", "lang_de").split(",")
+        var1[0][3] = config.get("DEFAULT", "lang_es").split(",")
+        var1[1][0] = config.get("DEFAULT", "langerr_nl").split(",")
+        var1[1][1] = config.get("DEFAULT", "langerr_en").split(",")
+        var1[1][2] = config.get("DEFAULT", "langerr_de").split(",")
+        var1[1][3] = config.get("DEFAULT", "langerr_es").split(",")
+        var1[2][0] = config.get("DEFAULT", "langinf_nl").split(",")
+        var1[2][1] = config.get("DEFAULT", "langinf_en").split(",")
+        var1[2][2] = config.get("DEFAULT", "langinf_de").split(",")
+        var1[2][3] = config.get("DEFAULT", "langinf_es").split(",")
+        var2 = config.get("DEFAULT", "printer")
+        return var1, var2
     except Exception as e:
         print("[+] ERROR,", e)
         return -1
@@ -55,11 +56,23 @@ def set_lang(langact):
     # Function Submit
     def submit():
         var = prepare()
-        if var[0] != "" and var[2] != "" and var[3] != "" and var[4] != "" and var[5] != "" and var[6] != "" and var[7] != "" and var[8] != "":
-            if dymo.main(var[0], var[1], var[2], var[7], var[8]) == -1:
-                messagebox.showerror("ERROR", langerr[langact][2], parent=subroot)
-            else:
-                if sql.main(var[2], var[1], var[0], var[3], var[4], var[5], var[6], var[7], var[8]) == -1:
+        print_ok = False
+        if var != -1 :
+            if printer == "dymo":
+                if dymo.main(**var) == -1:
+                    messagebox.showerror("ERROR", langerr[langact][2], parent=subroot)
+                else:
+                    print_ok = True
+            else: 
+                if printer == "brother":
+                    if brother.main() == -1:
+                        messagebox.showerror("ERROR", langerr[langact][2], parent=subroot)
+                    else:
+                        print_ok = True
+                else:
+                    messagebox.showerror("ERROR", langerr[langact][2], parent=subroot)
+            if print_ok == True:
+                if sql.main(**var) == -1:
                     messagebox.showerror("ERROR", langerr[langact][1], parent=subroot)
                 else:
                     clear()
@@ -69,48 +82,57 @@ def set_lang(langact):
 
     # Function fill variables
     def prepare():
-        var1 = textbox1.get()   # Firstname
-        var2 = textbox2.get()   # Insertion
-        var3 = textbox3.get()   # Lastname
-        var4 = textbox4.get()   # Address
-        var5 = textbox5.get()   # Zip Code
-        var6 = textbox6.get()   # Nationality
-        var7 = textbox7.get()   # Place
-        var8 = textbox8.get()   # Date of Birth
-        var9 = textbox9.get()   # E-Mail
-        if var1 == "":
+        var = { "firstname":textbox1.get(),
+                    "insertion":textbox2.get(),
+                    "lastname":textbox3.get(),
+                    "address":textbox4.get(),
+                    "zip-code":textbox5.get(),
+                    "nationality":textbox6.get(),
+                    "place":textbox7.get(),
+                    "date-of-birth":textbox8.get(),
+                    "e-mail":textbox9.get()
+                    }
+        if textbox1.get() == "":
             textbox1.config(bg='red')
+            return -1
         else:
             textbox1.config(bg='white')
-        if var3 == "":
+        if textbox3.get() == "":
             textbox3.config(bg='red')
+            return -1
         else:
             textbox3.config(bg='white')
-        if var4 == "":
+        if textbox4.get() == "":
             textbox4.config(bg='red')
+            return -1
         else:
             textbox4.config(bg='white')
-        if var5 == "":
+        if textbox5.get() == "":
             textbox5.config(bg='red')
+            return -1
         else:
             textbox5.config(bg='white')
-        if var6 == "":
+        if textbox6.get() == "":
             textbox6.config(bg='red')
+            return -1
         else:
             textbox6.config(bg='white')
-        if var7 == "":
+        if textbox7.get() == "":
             textbox7.config(bg='red')
+            return -1
         else:
             textbox7.config(bg='white')
-        if var8 == "":
+        if textbox8.get() == "":
             textbox8.config(bg='red')
+            return -1
         else:
             textbox8.config(bg='white')
-        if var9 == "":
+        if textbox9.get() == "":
             textbox9.config(bg='red')
+            return -1
         else:
             textbox9.config(bg='white')
-        return var1, var2, var3, var4, var5, var6, var7, var8, var9
+        return var
 
     # Function clear textboxes
     def clear():
@@ -248,12 +270,13 @@ btn_en.pack(fill="both", expand="yes")
 btn_de.pack(fill="both", expand="yes")
 btn_es.pack(fill="both", expand="yes")
 
-language = config() # Setup language
-if language == -1:
+configuration = config() # Setup language / configuration
+if configuration == -1:
     sys.exit()
 else:
-    lang=language[0]
-    langerr=language[1]
-    langinf=language[2]
+    lang=configuration[0][0]
+    langerr=configuration[0][1]
+    langinf=configuration[0][2]
+    printer=configuration[1]
 
 mainloop() # Running mainloop always last

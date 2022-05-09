@@ -27,7 +27,7 @@ def printjob(com):
         return -1
 
 # Define main function
-def main(var1, var2, var3, var4, var5):
+def main(**var):
     # Read configuration
     mylabel = config()[0]
     selectPrinter = config()[0]
@@ -42,14 +42,24 @@ def main(var1, var2, var3, var4, var5):
         isOpen = labelcom.Open(mylabel)
         labelcom.SelectPrinter(selectPrinter)
 
-        labeltext.SetField("TEXT1", var1)   # Firstname
-        labeltext.SetField("TEXT2", var2)   # Insertion
-        labeltext.SetField("TEXT3", var3)   # Lastname
-        labeltext.SetField("TEXT4", var4)   # Place
-        labeltext.SetField("TEXT5", var5)   # Date of Birth
+        labeltext.SetField("TEXT1", var.get("firstname"))
+        labeltext.SetField("TEXT2", var.get("insertion"))
+        labeltext.SetField("TEXT3", var.get("lastname"))
+        labeltext.SetField("TEXT4", var.get("place"))
+        labeltext.SetField("TEXT5", var.get("date-of-birth"))
     except Exception as e:
         print("[+] DYMO ERROR,", e)
         return -1
     
     if printjob(labelcom) == -1:
         return -1
+    
+# DEBUG TEST
+if __name__ == "__main__":
+    list = { "firstname":"test-fname",
+                "insertion":"test-insert",
+                "lastname":"test-lname",
+                "place":"test-place",
+                "date-of-birth":"test-date"
+                }
+    main(**list)
