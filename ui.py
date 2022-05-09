@@ -65,7 +65,7 @@ def set_lang(langact):
                     print_ok = True
             else: 
                 if printer == "brother":
-                    if brother.main() == -1:
+                    if brother.main(**var) == -1:
                         messagebox.showerror("ERROR", langerr[langact][2], parent=subroot)
                     else:
                         print_ok = True

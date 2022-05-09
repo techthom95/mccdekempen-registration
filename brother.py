@@ -76,10 +76,10 @@ def main(**var):
 
 # DEBUG TEST
 if __name__ == "__main__":
-    list= { "firstname":"test-fname",
-            "insertion":"",
-            "lastname":"test-lname",
-            "place":"test-place",
-            "date-of-birth":"test-date"
-        }
+    list = { "firstname":"test-fname",
+                "insertion":"test-insert",
+                "lastname":"test-lname",
+                "place":"test-place",
+                "date-of-birth":"test-date"
+                }
     main(**list)
