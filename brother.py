@@ -13,24 +13,23 @@ def config():
         config.read("config.ini")
         var1 = config.get("BROTHER", "backend")
         var2 = config.get("BROTHER", "model")
-        var2 = config.get("BROTHER", "printer")
-        return var1, var2
+        var3 = config.get("BROTHER", "printer")
+        var4 = config.get("DEFAULT", "year")
+        return var1, var2, var3, var4
     except Exception as e:
         print("[+] BROTHER ERROR,", e)
         return -1
 
-def create_label(**var):
+def create_label(year, **var):
     try:
         image = Image.new("RGB", (400,200), "white")
         draw = ImageDraw.Draw(image)
         font = ImageFont.truetype("arial", 20)
-        spacing = 0
+        spacing = 15
         text = """
-
+        MCC De Kempen                       """ + year + """
         """ + var.get('firstname') + """ """ + var.get('insertion') + """ """ + var.get('lastname') + """
-
         """ + var.get('place') + """
-
         """ + var.get('date-of-birth')
 
         draw.text((0,0), text, fill="black", font=font, spacing=spacing)
@@ -44,11 +43,12 @@ def main(**var):
     backend = config()[0] # 'pyusb', 'linux_kernal', 'network'
     model = config()[1]   # your printer model
     printer = config()[2] # Get these values from the Windows usb driver filter.  Linux/Raspberry Pi uses '/dev/usb/lp0'
+    year = config()[3]
     if backend == -1 or model == -1 or printer == -1:
         return -1
 
     # Create label
-    label = create_label(**var)
+    label = create_label(year, **var)
     label.show()
     #label.save('sample-out.png')
 
