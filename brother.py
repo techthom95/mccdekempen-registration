@@ -2,9 +2,9 @@
 # brother.py>
 from configparser import *
 from PIL import Image, ImageDraw, ImageFont
-#from brother_ql.conversion import convert
-#from brother_ql.backends.helpers import send
-#from brother_ql.raster import BrotherQLRaster
+from brother_ql.conversion import convert
+from brother_ql.backends.helpers import send
+from brother_ql.raster import BrotherQLRaster
 
 # Define configuration
 def config():
@@ -24,15 +24,17 @@ def create_label(year, **var):
     try:
         image = Image.new("RGB", (400,200), "white")
         draw = ImageDraw.Draw(image)
-        font = ImageFont.truetype("arial", 20)
+        font1 = ImageFont.truetype("arial", 20)
+        font2 = ImageFont.truetype("arial", 16)
         spacing = 15
-        text = """
-        MCC De Kempen                       """ + year + """
-        """ + var.get('firstname') + """ """ + var.get('insertion') + """ """ + var.get('lastname') + """
+        text1 = "Trainingskaart " + year
+        text2 =var.get('firstname') + """
+        """ + var.get('insertion') + """ """ + var.get('lastname') + """
         """ + var.get('place') + """
         """ + var.get('date-of-birth')
 
-        draw.text((0,0), text, fill="black", font=font, spacing=spacing)
+        draw.text((0,0), text1, fill="black", font=font1, spacing=spacing)
+        draw.text((0,0), text2, fill="black", font=font2, spacing=spacing)
         return image
     except Exception as e:
         print("[+] BROTHER ERROR,", e)
@@ -53,14 +55,13 @@ def main(**var):
     #label.save('sample-out.png')
 
     # Print label
-    """
     qlr = BrotherQLRaster(model)
     qlr.exception_on_warning = True
 
     instructions = convert(
         qlr=qlr, 
         images=[label],    #  Takes a list of file names or PIL objects.
-        label='29x90', 
+        label='62', 
         rotate='90',    # 'Auto', '0', '90', '270'
         threshold=70.0,    # Black and white threshold in percent.
         dither=False, 
@@ -72,7 +73,6 @@ def main(**var):
     )
 
     send(instructions=instructions, printer_identifier=printer, backend_identifier=backend, blocking=True)
-    """
 
 # DEBUG TEST
 if __name__ == "__main__":
