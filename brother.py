@@ -29,12 +29,12 @@ def create_label(year, **var):
         spacing = 15
         text1 = "Trainingskaart " + year
         text2 =var.get('firstname') + """
-        """ + var.get('insertion') + """ """ + var.get('lastname') + """
-        """ + var.get('place') + """
-        """ + var.get('date-of-birth')
+""" + var.get('insertion') + """ """ + var.get('lastname') + """
+""" + var.get('place') + """
+""" + var.get('date-of-birth')
 
         draw.text((5,5), text1, fill="black", font=font1, spacing=spacing)
-        draw.text((5,40), text2, fill="black", font=font2, spacing=spacing)
+        draw.text((10,50), text2, fill="black", font=font2, spacing=spacing)
         return image
     except Exception as e:
         print("[+] BROTHER ERROR,", e)
@@ -51,7 +51,7 @@ def main(**var):
 
     # Create label
     label = create_label(year, **var)
-    label.show()
+    #label.show()
     #label.save('sample-out.png')
 
     # Print label

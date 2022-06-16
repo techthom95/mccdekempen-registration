@@ -11,7 +11,7 @@ root.title('MCC De Kempen') # Window title
 root.configure(bg='white') # Window background
 #root.minsize(1200, 700) # Window size minimum
 #root.state('zoomed') # Normal fullscreen
-#root.attributes("-fullscreen", True) # Canvas fullscreen
+root.attributes("-fullscreen", True) # Canvas fullscreen
 icon=PhotoImage(file="image/icon.png") # Define icon
 flag_nl=PhotoImage(file="image/nl.png").subsample(2,2) # Define NL flag
 flag_en=PhotoImage(file="image/en.png").subsample(2,2) # Define EN flag
@@ -51,7 +51,7 @@ def config():
 def set_lang(langact):
     subroot=Toplevel(root) # Secondary window
     subroot.configure(bg='white') # Secondary window background
-    #subroot.attributes("-fullscreen", True) # Canvas fullscreen
+    subroot.attributes("-fullscreen", True) # Canvas fullscreen
 
     # Function Submit
     def submit():
