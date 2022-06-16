@@ -77,7 +77,7 @@ def set_lang(langact):
                 else:
                     clear()
                     messagebox.showinfo("INFO", langinf[langact][0], parent=subroot)
-                    subroot.destroy
+                    subroot.destroy()
         else:
             messagebox.showerror("ERROR", langerr[langact][0], parent=subroot)
 
