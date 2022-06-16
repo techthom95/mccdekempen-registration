@@ -22,9 +22,9 @@ def config():
 
 def create_label(year, **var):
     try:
-        image = Image.new("RGB", (400,200), "white")
+        image = Image.new("RGB", (300,200), "white")
         draw = ImageDraw.Draw(image)
-        font1 = ImageFont.truetype("arial", 20)
+        font1 = ImageFont.truetype("arial", 30)
         font2 = ImageFont.truetype("arial", 16)
         spacing = 15
         text1 = "Trainingskaart " + year
@@ -33,8 +33,8 @@ def create_label(year, **var):
         """ + var.get('place') + """
         """ + var.get('date-of-birth')
 
-        draw.text((0,0), text1, fill="black", font=font1, spacing=spacing)
-        draw.text((0,0), text2, fill="black", font=font2, spacing=spacing)
+        draw.text((5,5), text1, fill="black", font=font1, spacing=spacing)
+        draw.text((5,40), text2, fill="black", font=font2, spacing=spacing)
         return image
     except Exception as e:
         print("[+] BROTHER ERROR,", e)
