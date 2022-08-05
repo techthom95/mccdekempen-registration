@@ -1,2 +1,2 @@
-@echo offl
+@echo off
 python ui.py
