@@ -68,7 +68,7 @@ def sql_insert(mysql, table, **var):
         else:
             id = 1
         if sql_command(mysql, f'INSERT INTO {table} VALUES ({id}, "{var.get("lastname")}", "{var.get("insertion")}", "{var.get("firstname")}","{var.get("address")}", \
-                    	    "{var.get("zip-code")}", "{var.get("nationality")}", "{var.get("place")}", "{var.get("date-of-birth")}", "{var.get("e-mail")}")')== -1:
+                    	    "{var.get("zip-code")}", "{var.get("place")}", "{var.get("nationality")}", "{var.get("e-mail")}", "{var.get("date-of-birth")}")')== -1:
             return -1
     except Exception as e:
         print("[+] SQL ERROR,", e)
