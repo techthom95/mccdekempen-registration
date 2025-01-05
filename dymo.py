@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # dymo.py>
 from configparser import *
-from win32com.client import Dispatch
+try:
+    from win32com.client import Dispatch
+except:
+    pass
 
 # Define configuration
 def config():
